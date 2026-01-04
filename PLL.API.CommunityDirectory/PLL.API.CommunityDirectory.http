@@ -1,0 +1,6 @@
+@PLL.API.CommunityDirectory_HostAddress = http://localhost:5155
+
+GET {{PLL.API.CommunityDirectory_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
