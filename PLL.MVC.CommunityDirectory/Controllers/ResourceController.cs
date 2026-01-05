@@ -1,6 +1,7 @@
 ﻿using DAL.CommunityDirectory.Models.Resources;
 using Microsoft.AspNetCore.Mvc;
 using SLL.CommunityDirectory.Interfaces;
+using System.Security.Claims;
 
 namespace PLL.MVC.CommunityDirectory.Controllers
 {
@@ -17,7 +18,20 @@ namespace PLL.MVC.CommunityDirectory.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var resources = await _resourceService.GetPublicResourcesAsync();
+            IEnumerable<ResourceClass> resources;
+
+            // Check if the user is in the Admin role
+            if (User.IsInRole("Admin"))
+            {
+                // Admin sees EVERYTHING (Pending + Approved)
+                resources = await _resourceService.GetAllResourcesAdminAsync();
+            }
+            else
+            {
+                // Public sees only Approved
+                resources = await _resourceService.GetPublicResourcesAsync();
+            }
+
             return View(resources);
         }
 
@@ -43,8 +57,25 @@ namespace PLL.MVC.CommunityDirectory.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ResourceClass resource)
         {
+            // Get the current logged-in user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                ModelState.AddModelError("", "You must be logged in to create a resource.");
+            }
+            else
+            {
+                resource.SubmittedById = userId;
+            }
+
+            // Clean validation for the complex objects
+            ModelState.Remove("category");
+            ModelState.Remove("SubmittedBy");
+
             if (ModelState.IsValid)
             {
+
                 await _resourceService.AddResourceAsync(resource);
                 return RedirectToAction(nameof(Index));
             }
@@ -52,7 +83,7 @@ namespace PLL.MVC.CommunityDirectory.Controllers
             return View(resource);
         }
 
-        // GET: Resource/Edit/5
+        // GET: Resource/Edit/
         public async Task<IActionResult> Edit(int id)
         {
             var resource = await _resourceService.GetDetailsAsync(id);
@@ -77,7 +108,7 @@ namespace PLL.MVC.CommunityDirectory.Controllers
             return View(resource);
         }
 
-        // GET: Resource/Delete/5
+        // GET: Resource/Delete/
         public async Task<IActionResult> Delete(int id)
         {
             var resource = await _resourceService.GetDetailsAsync(id);

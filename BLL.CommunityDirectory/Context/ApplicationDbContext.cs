@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,11 @@ namespace BLL.CommunityDirectory.Context
         {
             base.OnModelCreating(builder);
             // Additional Fluent API configurations (e.g., seeding or specific constraints) can go here
+            builder.Entity<EventClass>()
+                .HasOne(e => e.Category)
+                .WithMany(c => c.Events)
+                .HasForeignKey(e => e.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

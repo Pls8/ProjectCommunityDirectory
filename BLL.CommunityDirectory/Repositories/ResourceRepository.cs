@@ -42,5 +42,20 @@ namespace BLL.CommunityDirectory.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<IEnumerable<ResourceClass>> GetAllResourcesAsync(bool isAdmin)
+        {
+            if (isAdmin)
+            {
+                // Admins see everything
+                return await _context.Resources.Include(r => r.category).ToListAsync();
+            }
+
+            // Regular users only see approved ones
+            return await _context.Resources
+                .Include(r => r.category)
+                .Where(r => r.IsApproved == true)
+                .ToListAsync();
+        }
     }
 }

@@ -20,5 +20,8 @@ namespace SLL.CommunityDirectory.Interfaces
         Task DeleteResourceAsync(int id);
 
         Task AddResourceAsync(ResourceClass resource);
+
+        Task<IEnumerable<ResourceClass>> GetAllResourcesAdminAsync();
+
     }
 }

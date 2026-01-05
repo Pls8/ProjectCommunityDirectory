@@ -12,16 +12,30 @@
         </div>
         <div class="card-body">
             <div class="row mb-4">
+                @* Left Side: Content *@
                 <div class="col-md-8">
                     <h2 class="text-primary">@Model.Title</h2>
+                    <h5 class="text-muted"><i class="bi bi-person-badge"></i> Organized by: @Model.Organizer</h5>
+                    <h6 class="text-secondary"><i class="bi bi-folder"></i> Category: @(Model.Category?.Name ?? "General")</h6>
                     <p class="lead text-muted">
                         <i class="bi bi-geo-alt-fill text-danger"></i> @Model.Location
                     </p>
                 </div>
+
+                @* Right Side: Small Boxes for Image and Date *@
                 <div class="col-md-4 text-md-end">
+                    @* Image Box *@
+                    <div class="p-2 border rounded bg-light mb-3">
+                        <img src="@(string.IsNullOrEmpty(Model.ImagePath) ? "/imgs/FallBackImg.jpg" : Model.ImagePath)"
+                             class="img-fluid rounded"
+                             style="max-height: 150px; width: 100%; object-fit: cover;"
+                             alt="Event Image">
+                    </div>
+
+                    @* Date Box *@
                     <div class="p-3 border rounded bg-light">
-                        <h5 class="mb-1">Date & Time</h5>
-                        <p class="mb-0">@Model.EventDate.ToString("f")</p>
+                        <h6 class="mb-1 fw-bold">Date & Time</h6>
+                        <p class="mb-0 small">@Model.EventDate.ToString("f")</p>
                     </div>
                 </div>
             </div>

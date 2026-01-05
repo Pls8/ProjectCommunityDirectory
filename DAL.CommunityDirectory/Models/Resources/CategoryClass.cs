@@ -17,6 +17,7 @@ namespace DAL.CommunityDirectory.Models.Resources
         public string? Description { get; set; }
 
         // Navigation property for Resources
-        public virtual ICollection<ResourceClass> Resources { get; set; }
+        public virtual ICollection<ResourceClass>? Resources { get; set; }
+        public virtual ICollection<Event.EventClass>? Events { get; set; }
     }
 }

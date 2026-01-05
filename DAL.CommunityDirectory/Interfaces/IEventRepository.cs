@@ -11,5 +11,6 @@ namespace DAL.CommunityDirectory.Interfaces
     public interface IEventRepository : IGenericRepository<EventClass>
     {
         Task<IEnumerable<EventClass>> GetUpcomingEventsAsync();
+        Task<IEnumerable<EventClass>> GetAllWithCategoryAsync();
     }
 }

@@ -59,6 +59,9 @@ namespace SLL.CommunityDirectory.Services
             await _resourceRepository.AddAsync(resource);
         }
 
+        public async Task<IEnumerable<ResourceClass>> GetAllResourcesAdminAsync() =>
+            await _resourceRepository.GetAllWithCategoryAsync();
+
 
     }
 }

@@ -20,22 +20,22 @@ namespace DAL.CommunityDirectory.Models.Resources
         [EmailAddress]
         public string? ContactEmail { get; set; }
         [Phone]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         public string? ContactInfo { get; set; }
-        public string Address { get; set; }
-        public string City { get; set; }
-        public string Website { get; set; }
+        public string? Address { get; set; }
+        public string? City { get; set; }
+        public string? Website { get; set; }
         public bool IsApproved { get; set; } = false; // Admin approval requirement
 
 
         [ForeignKey(nameof(category))]
         public int CategoryId { get; set; }
-        public virtual CategoryClass category { get; set; }
+        public virtual CategoryClass? category { get; set; }
 
 
         [ForeignKey(nameof(SubmittedBy))]
-        public string SubmittedById { get; set; }
-        public virtual AppUser SubmittedBy { get; set; }
+        public string? SubmittedById { get; set; }
+        public virtual AppUser? SubmittedBy { get; set; }
     }
 }

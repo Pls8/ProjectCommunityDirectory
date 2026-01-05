@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Add New Resource";
 }
-
+@* <div asp-validation-summary="All" class="text-danger"></div> *@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8 border p-4 rounded bg-light shadow-sm">
@@ -46,12 +46,36 @@
                         <input asp-for="Phone" class="form-control" placeholder="Contact number" />
                     </div>
 
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="ContactEmail" class="form-label font-weight-bold">Contact Email</label>
+                        <input asp-for="ContactEmail" class="form-control" placeholder="email@example.com" />
+                        <span asp-validation-for="ContactEmail" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ContactInfo" class="form-label font-weight-bold">Additional Contact Info</label>
+                        <input asp-for="ContactInfo" class="form-control" placeholder="e.g. Best time to call, secondary contact" />
+                        <span asp-validation-for="ContactInfo" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Address" class="form-label font-weight-bold"></label>
+                        <input asp-for="Address" class="form-control" placeholder="123 Main St" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Website" class="form-label font-weight-bold"></label>
+                        <input asp-for="Website" class="form-control" placeholder="https://example.com" />
+                        <span asp-validation-for="Website" class="text-danger"></span>
+                    </div>
+
                     <div class="col-md-4 mb-3 d-flex align-items-end">
                         <div class="form-check p-2 border rounded bg-white w-100 ps-5">
                             <input asp-for="IsApproved" class="form-check-input" />
                             <label class="form-check-label" asp-for="IsApproved">Approved & Visible</label>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="mt-4 d-flex gap-2">
