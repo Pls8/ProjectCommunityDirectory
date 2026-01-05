@@ -1,0 +1,24 @@
+﻿@model DAL.CommunityDirectory.Models.Resources.ResourceClass
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-primary">@Model.Name</h2>
+            <h6 class="card-subtitle mb-2 text-muted">Category: @(Model.category?.Name ?? "N/A")</h6>
+            <hr />
+            <p><strong>Description:</strong> @Model.Description</p>
+            <p><strong>City:</strong> @Model.City</p>
+            <p><strong>Phone:</strong> @Model.Phone</p>
+            <p>
+                <strong>Status:</strong>
+                <span class="badge @(Model.IsApproved ? "bg-success" : "bg-warning text-dark")">
+                    @(Model.IsApproved ? "Approved" : "Pending Approval")
+                </span>
+            </p>
+            <div class="mt-4">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                <a asp-action="Index" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+</div>

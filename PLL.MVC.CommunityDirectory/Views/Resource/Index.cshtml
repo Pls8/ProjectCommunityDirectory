@@ -1,0 +1,41 @@
+﻿@model IEnumerable<DAL.CommunityDirectory.Models.Resources.ResourceClass>
+
+@{
+    ViewData["Title"] = "Community Resources";
+}
+
+<h1>Community Resources</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>City</th>
+            <th>Category</th>
+            <th>IsApproved</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.City</td>
+                <td>@item.category?.Name</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                </td>
+                <td>
+                    @if (item.IsApproved)
+                    {
+                        <span class="badge bg-success">Approved</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,70 @@
+﻿@model DAL.CommunityDirectory.Models.Resources.ResourceClass
+
+@{
+    ViewData["Title"] = "Add New Resource";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 border p-4 rounded bg-light shadow-sm">
+            <h3 class="text-primary">Add New Community Resource</h3>
+            <p class="text-muted">Enter the details of the organization or service below.</p>
+            <hr />
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Name" class="form-label font-weight-bold"></label>
+                        <input asp-for="Name" class="form-control" placeholder="e.g. City Food Bank" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="CategoryId" class="form-label font-weight-bold">Category</label>
+                        <select asp-for="CategoryId" class="form-select"
+                                asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+                            <option value="">-- Choose a Category --</option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label asp-for="Description" class="form-label font-weight-bold"></label>
+                        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Describe what this resource offers..."></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="City" class="form-label font-weight-bold"></label>
+                        <input asp-for="City" class="form-control" placeholder="City" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Phone" class="form-label font-weight-bold"></label>
+                        <input asp-for="Phone" class="form-control" placeholder="Contact number" />
+                    </div>
+
+                    <div class="col-md-4 mb-3 d-flex align-items-end">
+                        <div class="form-check p-2 border rounded bg-white w-100 ps-5">
+                            <input asp-for="IsApproved" class="form-check-input" />
+                            <label class="form-check-label" asp-for="IsApproved">Approved & Visible</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary px-4">Save Resource</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

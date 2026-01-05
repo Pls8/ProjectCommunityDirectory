@@ -18,5 +18,7 @@ namespace SLL.CommunityDirectory.Interfaces
         Task ApproveResourceAsync(int id);
         Task UpdateResourceAsync(ResourceClass resource);
         Task DeleteResourceAsync(int id);
+
+        Task AddResourceAsync(ResourceClass resource);
     }
 }

@@ -50,7 +50,15 @@ namespace SLL.CommunityDirectory.Services
 
         public async Task UpdateResourceAsync(ResourceClass resource) => await _resourceRepository.UpdateAsync(resource);
         public async Task DeleteResourceAsync(int id) => await _resourceRepository.DeleteAsync(id);
-        
+
+
+
+
+        public async Task AddResourceAsync(ResourceClass resource)
+        {
+            await _resourceRepository.AddAsync(resource);
+        }
+
 
     }
 }
