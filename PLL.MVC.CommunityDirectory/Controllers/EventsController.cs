@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using SLL.CommunityDirectory.DTOs;
 using SLL.CommunityDirectory.Interfaces;
 using SLL.CommunityDirectory.Services;
 
@@ -48,8 +49,8 @@ namespace PLL.MVC.CommunityDirectory.Controllers
         // POST: Events/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(EventClass @event)
-        {
+        public async Task<IActionResult> Create(EventDTO @event)
+        {                                       // EventClass BEFORE DTO
             if (ModelState.IsValid)
             {
                 await _eventService.CreateEventAsync(@event);
@@ -58,7 +59,7 @@ namespace PLL.MVC.CommunityDirectory.Controllers
 
             // If something fails, reload the dropdown so the page doesn't crash
             var categories = await _categoryService.GetAllCategoriesAsync();
-            ViewBag.CategoryId = new SelectList(categories, "Id", "Name", @event.CategoryId);
+            ViewBag.CategoryId = new SelectList(categories, "Id", "Name", @event.CategoryName);
             return View(@event);
         }
 
@@ -82,15 +83,21 @@ namespace PLL.MVC.CommunityDirectory.Controllers
         // POST: Events/Edit/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EventClass eventClass)
-        {
+        public async Task<IActionResult> Edit(int id, EventDTO eventClass)
+        {                                               // EventClass BEFORE DTO
             if (id != eventClass.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
-                await _eventService.UpdateEventAsync(eventClass);
+                //await _eventService.UpdateEventAsync(eventClass);
+
+                //DTO version
+                await _eventService.UpdateEventAsync(id, eventClass);
+
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Categories = await _categoryService.GetAllCategoriesAsync();
+
             return View(eventClass);
         }
 

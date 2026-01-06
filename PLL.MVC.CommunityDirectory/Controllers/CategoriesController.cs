@@ -1,6 +1,7 @@
 ﻿using DAL.CommunityDirectory.Models.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SLL.CommunityDirectory.DTOs;
 using SLL.CommunityDirectory.Interfaces;
 
 namespace PLL.MVC.CommunityDirectory.Controllers
@@ -31,8 +32,8 @@ namespace PLL.MVC.CommunityDirectory.Controllers
         // POST: Category/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CategoryClass category)
-        {
+        public async Task<IActionResult> Create(CategoryDTO category)
+        {                                       // CategoryClass BEFORE DTO
             if (ModelState.IsValid)
             {
                 await _categoryService.CreateCategoryAsync(category);
@@ -52,13 +53,17 @@ namespace PLL.MVC.CommunityDirectory.Controllers
         // POST: Categories/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CategoryClass category)
-        {
+        public async Task<IActionResult> Edit(int id, CategoryDTO category)
+        {                                            // CategoryClass BEFORE DTO
             if (id != category.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
-                await _categoryService.UpdateCategoryAsync(category);
+                //await _categoryService.UpdateCategoryAsync(category);
+
+                //DTOs version
+                await _categoryService.UpdateCategoryAsync(id, category);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(category);

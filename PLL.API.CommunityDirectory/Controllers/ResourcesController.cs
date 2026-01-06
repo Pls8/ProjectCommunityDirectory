@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenTelemetry.Resources;
+using SLL.CommunityDirectory.DTOs;
 using SLL.CommunityDirectory.Interfaces;
+using System.Security.Claims;
 
 
 namespace PLL.API.CommunityDirectory.Controllers
@@ -36,11 +38,13 @@ namespace PLL.API.CommunityDirectory.Controllers
         }
 
         // Authenticated Endpoints
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> SuggestResource([FromBody] ResourceClass model)
-        {
+        public async Task<IActionResult> SuggestResource([FromBody] ResourceCreateDTO model)
+        {                                                           //ResourceClass BEFORE DTO
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = await _resourceService.SuggestResourceAsync(model);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _resourceService.SuggestResourceAsync(model, userId);
             return CreatedAtAction(nameof(GetDetails), new { id = result.Id }, result);
         }
 

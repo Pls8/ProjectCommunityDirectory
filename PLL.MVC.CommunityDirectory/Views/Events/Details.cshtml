@@ -1,4 +1,5 @@
-﻿@model DAL.CommunityDirectory.Models.Event.EventClass
+﻿@* @model DAL.CommunityDirectory.Models.Event.EventClass *@
+@model SLL.CommunityDirectory.DTOs.EventDTO
 
 @{
     ViewData["Title"] = "Event Details";
@@ -16,7 +17,8 @@
                 <div class="col-md-8">
                     <h2 class="text-primary">@Model.Title</h2>
                     <h5 class="text-muted"><i class="bi bi-person-badge"></i> Organized by: @Model.Organizer</h5>
-                    <h6 class="text-secondary"><i class="bi bi-folder"></i> Category: @(Model.Category?.Name ?? "General")</h6>
+                    @* <h6 class="text-secondary"><i class="bi bi-folder"></i> Category: @(Model.Category?.Name ?? "General")</h6> *@
+                    <h6 class="text-secondary"><i class="bi bi-folder"></i> Category: @(Model.CategoryName ?? "General")</h6>
                     <p class="lead text-muted">
                         <i class="bi bi-geo-alt-fill text-danger"></i> @Model.Location
                     </p>

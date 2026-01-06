@@ -1,4 +1,5 @@
-﻿@model IEnumerable<DAL.CommunityDirectory.Models.Resources.ResourceClass>
+﻿@* @model IEnumerable<DAL.CommunityDirectory.Models.Resources.ResourceClass> *@
+@model IEnumerable<SLL.CommunityDirectory.DTOs.ResourceReadDTO>
 
 @{
     ViewData["Title"] = "Community Resources";
@@ -31,8 +32,11 @@
                             <td class="fw-bold">@item.Name</td>
                             <td><i class="bi bi-geo-alt"></i> @item.City</td>
                             <td>
-                                <span class="badge bg-secondary">
+                                @* <span class="badge bg-secondary">
                                     @(item.category?.Name ?? "General")
+                                </span> *@
+                                <span class="badge bg-secondary">
+                                    @(item.CategoryName ?? "General")
                                 </span>
                             </td>
                             <td class="text-center">

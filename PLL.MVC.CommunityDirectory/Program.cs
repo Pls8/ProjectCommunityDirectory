@@ -5,6 +5,7 @@ using DAL.CommunityDirectory.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SLL.CommunityDirectory.Interfaces;
+using SLL.CommunityDirectory.Mapping;
 using SLL.CommunityDirectory.Services;
 namespace PLL.MVC.CommunityDirectory;
 
@@ -19,6 +20,9 @@ public class Program
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
+        // AutoMapper Configuration
+        //builder.Services.AddAutoMapper(typeof(MappingProfile));
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
         // Database Configuration

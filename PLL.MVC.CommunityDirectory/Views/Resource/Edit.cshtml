@@ -1,4 +1,5 @@
-﻿@model DAL.CommunityDirectory.Models.Resources.ResourceClass
+﻿@* @model DAL.CommunityDirectory.Models.Resources.ResourceClass *@
+@model SLL.CommunityDirectory.DTOs.ResourceCreateDTO
 
 @{
     ViewData["Title"] = "Edit Resource";
@@ -22,10 +23,15 @@
 
                     <div class="col-md-6 mb-3">
                         <label asp-for="CategoryId" class="form-label font-weight-bold">Category</label>
-                        <select asp-for="CategoryId" class="form-control"
+                        @* <select asp-for="CategoryId" class="form-control"
                                 asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+                            <option value="">-- Select Category --</option> 
+                                                    </select>*@
+                        <select asp-for="CategoryId" class="form-control"
+                                asp-items="@(ViewBag.CategoryId as SelectList)">
                             <option value="">-- Select Category --</option>
                         </select>
+
                         <span asp-validation-for="CategoryId" class="text-danger"></span>
                     </div>
 

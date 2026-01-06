@@ -8,9 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SLL.CommunityDirectory.Interfaces;
+using SLL.CommunityDirectory.Mapping;
 using SLL.CommunityDirectory.Services;
 using System.Text;
-
+using AutoMapper;
 namespace PLL.API.CommunityDirectory;
 
 public class Program
@@ -20,6 +21,12 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.AddServiceDefaults();
+
+        //AutoMapper Configuration
+        //builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
 
         // 1. Controllers & JSON Options
         builder.Services.AddControllers()

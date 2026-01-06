@@ -1,10 +1,12 @@
-﻿@model DAL.CommunityDirectory.Models.Resources.ResourceClass
+﻿@* @model DAL.CommunityDirectory.Models.Resources.ResourceClass *@
+@model SLL.CommunityDirectory.DTOs.ResourceReadDTO
 
 <div class="container mt-4">
     <div class="card shadow-sm">
         <div class="card-body">
             <h2 class="card-title text-primary">@Model.Name</h2>
-            <h6 class="card-subtitle mb-2 text-muted">Category: @(Model.category?.Name ?? "N/A")</h6>
+            @* <h6 class="card-subtitle mb-2 text-muted">Category: @(Model.category?.Name ?? "N/A")</h6> *@
+            <h6 class="card-subtitle mb-2 text-muted">Category: @(Model.CategoryName ?? "N/A")</h6>
             <hr />
             <p><strong>Description:</strong> @Model.Description</p>
             <p><strong>City:</strong> @Model.City</p>
