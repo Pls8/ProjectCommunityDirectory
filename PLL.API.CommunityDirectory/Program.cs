@@ -1,17 +1,18 @@
-﻿using BLL.CommunityDirectory.Context;
+﻿using AutoMapper;
+using BLL.CommunityDirectory.Context;
 using BLL.CommunityDirectory.Repositories;
 using DAL.CommunityDirectory.Interfaces;
 using DAL.CommunityDirectory.Models.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SLL.CommunityDirectory.Interfaces;
 using SLL.CommunityDirectory.Mapping;
 using SLL.CommunityDirectory.Services;
 using System.Text;
-using AutoMapper;
 namespace PLL.API.CommunityDirectory;
 
 public class Program
@@ -137,12 +138,21 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
         app.UseHttpsRedirection();
         app.UseCors("AllowAngular");
 
         app.UseAuthentication();
         app.UseAuthorization();
+
+        ////IMG, this has problem when running API
+        // In PLL.API/Program.cs
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "..", "PLL.MVC.CommunityDirectory", "wwwroot", "imgs")),
+            RequestPath = "/imgs"
+        });
 
         app.MapControllers();
 

@@ -20,9 +20,9 @@ namespace BLL.CommunityDirectory.Repositories
             return await _dbSet.Where(e => e.EventDate >= DateTime.Now)
                                .OrderBy(e => e.EventDate)
                                .ToListAsync();
-        }
+        }                           
         public async Task<IEnumerable<EventClass>> GetAllWithCategoryAsync()
-        {
+        {                          
             // .Include(e => e.Category) joins the Events table with Categories table
             return await _dbSet.Include(e => e.Category)
                                .OrderByDescending(e => e.CreatedAt)
