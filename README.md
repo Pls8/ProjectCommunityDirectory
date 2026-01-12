@@ -28,7 +28,28 @@ The project follows a Clean Architecture pattern to ensure scalability and maint
 4. **PLL (Presentation Logic Layer):**
 * The MVC Web interface built with Razor Views, Tag Helpers, and Bootstrap.
 
+---
 
+## privilege table
+| Endpoint         | Access        |
+| ---------------- | ------------- |
+| GET Categories   | Public        |
+| POST Category    | Admin         |
+| GET Events       | Public        |
+| POST Event       | Admin	   |
+| DELETE Event     | Admin         |
+| GET Resources    | Public        |
+| POST Resource    | Authenticated |
+| APPROVE Resource | Admin         |
+
+- /                → Landing page (home).
+- /login           → Login.
+- /register        → Register.
+- /resources       → Public resources list (approved only).
+- /events          → Public events list.
+- /resources/new   → Suggest resource (Authenticated).
+- /events/new      → Create event (Admin).
+- /admin           → Admin dashboard (Admin only).
 
 ---
 
@@ -64,20 +85,13 @@ The project follows a Clean Architecture pattern to ensure scalability and maint
 | **User Identity** | Integrated with ASP.NET Core Identity to manage user roles and unique identifiers for resource ownership. |
 | **Seed Data** | Includes a DbInitializer class to automatically populate the database with default categories, users, and resources upon first launch. |
 | **UI Design** | Utilizes Bootstrap 5 for a responsive, mobile-friendly design, featuring card-based layouts and badge-status indicators. |
+| **AutoMapper(13.0.1) PKG** | Used in _PLL.API_, _PLL.MVC_, and _SLL_ to simplify object-to-object mapping between DTOs, domain models, and view models. |
 
 ---
 
 
 
 
-
-
-
-
-
-
-
----
 
 The project has transitioned from a monolithic data approach to a **N-Tier Architecture** using **DTOs (Data Transfer Objects)**. This shift separates the Data Access Layer (DAL) from the Presentation Layer (PLL), ensuring that database entities are never exposed directly to the UI or API consumers.
 
@@ -91,7 +105,7 @@ Specific classes were implemented in the **SLL (Service Logic Layer)** to handle
 * **ResourceCreateDTO**: Tailored for form submissions. It includes only the necessary fields for data entry and the `Id` property for update operations.
 * **EventDTO**: Standardized object for event-related operations across both MVC and API.
 
-### 2. AutoMapper Integration
+### 2. AutoMapper(13.0.1) Integration
 
 **AutoMapper** was implemented to automate the object-to-object mapping between Domain Entities and DTOs.
 
