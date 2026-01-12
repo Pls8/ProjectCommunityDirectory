@@ -1,0 +1,39 @@
+/* pages/resource-create/resource-create.css */
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.card {
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 0.5rem;
+}
+
+.card-header {
+  border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Required field indicator */
+.form-label:after {
+  content: " *";
+  color: #dc3545;
+}

@@ -1,0 +1,154 @@
+<!-- events.component.html -->
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Events</h2>
+    
+    <!-- Admin button to add new event -->
+    <button *ngIf="auth.isAdmin()" class="btn btn-primary" routerLink="/events/new">
+      <i class="bi bi-plus-circle me-2"></i>Add New Event
+    </button>
+  </div>
+
+  <!-- Loading state - REPLACED with Skeleton Loading -->
+  <div *ngIf="!(events$ | async)" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <!-- Skeleton Loading Cards -->
+    <div class="col" *ngFor="let i of [1,2,3,4,5,6]">
+      <div class="card h-100 shadow-sm border-0">
+        <!-- Event Image Skeleton -->
+        <div class="card-img-top placeholder-glow" 
+             style="height: 200px; background-color: #e9ecef; border-radius: 0.375rem 0.375rem 0 0;"></div>
+        
+        <!-- Card Body -->
+        <div class="card-body d-flex flex-column">
+          <!-- Category Badge Skeleton -->
+          <div class="d-flex justify-content-end mb-2">
+            <span class="badge bg-light placeholder col-3"></span>
+          </div>
+          
+          <!-- Event Title Skeleton -->
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-8"></span>
+          </h5>
+          
+          <!-- Event Description Skeleton -->
+          <p class="card-text placeholder-glow flex-grow-1" style="font-size: 0.9rem;">
+            <span class="placeholder col-12"></span>
+            <span class="placeholder col-10"></span>
+            <span class="placeholder col-6"></span>
+          </p>
+
+          <!-- Event Details Skeleton -->
+          <ul class="list-group list-group-flush mb-3 placeholder-glow">
+            <li class="list-group-item d-flex align-items-center">
+              <span class="placeholder col-2 me-2"></span>
+              <span class="placeholder col-8"></span>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+              <span class="placeholder col-2 me-2"></span>
+              <span class="placeholder col-7"></span>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+              <span class="placeholder col-2 me-2"></span>
+              <span class="placeholder col-6"></span>
+            </li>
+          </ul>
+
+          <!-- Action Buttons Skeleton -->
+          <div class="d-flex justify-content-between mt-auto">
+            <span class="btn btn-outline-primary btn-sm placeholder col-4"></span>
+            <div class="btn-group placeholder-glow">
+              <span class="btn btn-outline-secondary btn-sm placeholder col-3 me-1"></span>
+              <span class="btn btn-outline-danger btn-sm placeholder col-3"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="(events$ | async)?.length === 0" class="text-center py-5">
+    <div class="alert alert-info">
+      <i class="bi bi-calendar-x fs-1 mb-3 d-block"></i>
+      <h4>No Events Found</h4>
+      <p>There are no upcoming events scheduled at the moment.</p>
+      <button *ngIf="auth.isAdmin()" class="btn btn-primary" routerLink="/events/new">
+        Create Event
+      </button>
+    </div>
+  </div>
+
+  <!-- Events grid -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <ng-container *ngFor="let event of events$ | async">
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <!-- Event Image -->
+          <div class="position-relative">
+            <img 
+              [src]="getImageUrl(event.imagePath) || 'assets/images/event-placeholder.jpg'" 
+              [alt]="event.title"
+              class="card-img-top"
+              style="height: 200px; object-fit: cover;"
+            />
+            <!-- Category Badge -->
+            <span class="badge bg-primary position-absolute top-0 end-0 m-2">
+              {{ event.categoryName }}
+            </span>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body d-flex flex-column">
+            <!-- Event Title -->
+            <h5 class="card-title text-truncate" [title]="event.title">
+              {{ event.title }}
+            </h5>
+            
+            <!-- Event Description -->
+            <p class="card-text flex-grow-1 text-muted" style="font-size: 0.9rem;">
+              {{ (event.description.length > 100) ? (event.description | slice:0:100) + '...' : event.description }}
+            </p>
+
+            <!-- Event Details -->
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item d-flex align-items-center">
+                <i class="bi bi-calendar-event me-2 text-primary"></i>
+                <small>{{ event.eventDate | date:'mediumDate' }}</small>
+              </li>
+              <li class="list-group-item d-flex align-items-center">
+                <i class="bi bi-geo-alt me-2 text-primary"></i>
+                <small class="text-truncate" [title]="event.location">
+                  {{ event.location }}
+                </small>
+              </li>
+              <li class="list-group-item d-flex align-items-center">
+                <i class="bi bi-person me-2 text-primary"></i>
+                <small class="text-truncate" [title]="event.organizer">
+                  {{ event.organizer }}
+                </small>
+              </li>
+            </ul>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-between mt-auto">
+              <!-- View Details Button -->
+              <button class="btn btn-outline-primary btn-sm" [routerLink]="['/events', event.id]">
+                <i class="bi bi-eye me-1"></i>View
+              </button>
+              
+              <!-- Admin Actions -->
+              <div *ngIf="auth.isAdmin()" class="btn-group">
+                <button class="btn btn-outline-secondary btn-sm" [routerLink]="['/events/edit', event.id]">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-outline-danger btn-sm" (click)="delete(event.id)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,125 @@
+<!-- <h2>Suggest Resource</h2>
+<form (ngSubmit)="submit()">
+  <input [(ngModel)]="model.name" name="name" placeholder="Name" />
+  <textarea [(ngModel)]="model.description" name="description"></textarea>
+  <select [(ngModel)]="model.categoryId" name="categoryId">
+    <option *ngFor="let c of categories" [value]="c.id">
+      {{ c.name }}
+    </option>
+  </select>
+  <button type="submit">Submit</button>
+</form> 
+OLD Code -->
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+      <h2 class="mb-4">Suggest a Resource</h2>
+
+      <!-- Resource Form -->
+      <form (ngSubmit)="submit()" class="card">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Resource Details</h5>
+        </div>
+
+        <div class="card-body">
+          <!-- Name -->
+          <div class="mb-3">
+            <label for="name" class="form-label">Resource Name *</label>
+            <input type="text" id="name" class="form-control" [(ngModel)]="model.name" name="name" required
+              placeholder="Enter resource name" />
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Description *</label>
+            <textarea id="description" class="form-control" [(ngModel)]="model.description" name="description" rows="4"
+              required placeholder="Describe the resource"></textarea>
+          </div>
+
+          <!-- Category -->
+          <div class="mb-3">
+            <label for="category" class="form-label">Category *</label>
+            <select id="category" class="form-select" [(ngModel)]="model.categoryId" name="categoryId" required>
+              <option [ngValue]="0" disabled>Select a category</option>
+              <!-- <option *ngFor="let c of categories" [value]="c.id"> -->
+              <option *ngFor="let c of categories$ | async" [value]="c.id">
+                {{ c.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="row">
+            <!-- Phone -->
+            <div class="col-md-6 mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" id="phone" class="form-control" [(ngModel)]="model.phone" name="phone"
+                placeholder="(123) 456-7890" />
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6 mb-3">
+              <label for="contactEmail" class="form-label">Email Address</label>
+              <input type="email" id="contactEmail" class="form-control" [(ngModel)]="model.contactEmail"
+                name="contactEmail" placeholder="contact@example.com" />
+            </div>
+          </div>
+
+          <!-- Additional Contact Info -->
+          <div class="mb-3">
+            <label for="contactInfo" class="form-label">Additional Contact Information</label>
+            <textarea id="contactInfo" class="form-control" [(ngModel)]="model.contactInfo" name="contactInfo" rows="2"
+              placeholder="Any other contact details"></textarea>
+          </div>
+
+          <div class="row">
+            <!-- City -->
+            <div class="col-md-6 mb-3">
+              <label for="city" class="form-label">City *</label>
+              <input type="text" id="city" class="form-control" [(ngModel)]="model.city" name="city" required
+                placeholder="City name" />
+            </div>
+
+            <!-- Address -->
+            <div class="col-md-6 mb-3">
+              <label for="address" class="form-label">Address *</label>
+              <input type="text" id="address" class="form-control" [(ngModel)]="model.address" name="address" required
+                placeholder="Street address" />
+            </div>
+          </div>
+
+          <!-- Website -->
+          <div class="mb-3">
+            <label for="website" class="form-label">Website URL</label>
+            <input type="url" id="website" class="form-control" [(ngModel)]="model.website" name="website"
+              placeholder="https://example.com" />
+          </div>
+
+          <!-- Form Actions -->
+          <div class="d-flex justify-content-between mt-4">
+            <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
+              Reset
+            </button>
+
+            <div>
+              <button type="button" class="btn btn-outline-danger me-2" routerLink="/resources">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Submit for Approval
+              </button>
+            </div>
+          </div>
+
+          <!-- Help Text -->
+          <div class="alert alert-info mt-3">
+            <small>
+              Your submission will be reviewed by an administrator before appearing publicly.
+              All fields marked with * are required.
+            </small>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

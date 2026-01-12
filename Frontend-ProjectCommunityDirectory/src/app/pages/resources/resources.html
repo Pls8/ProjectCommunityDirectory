@@ -1,0 +1,242 @@
+<!-- resources.html -->
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Resources</h2>
+
+    <!-- Only Admin add new resource -->
+    <!--
+     <button *ngIf="auth.isAdmin()" class="btn btn-primary" routerLink="/resources/new">
+      <i class="bi bi-plus-circle me-2"></i>Add New Resource
+    </button>
+     -->
+    <button *ngIf="auth.isLoggedIn()" class="btn btn-primary" routerLink="/resources/new">
+      <i class="bi bi-plus-circle me-2"></i>Add New Resource
+    </button>
+  </div>
+
+  <!-- SEARCH BAR - SECTION 1-8-026-->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="bi bi-search"></i>
+        </span>
+        <input type="text" class="form-control" placeholder="Search resources by name, description, or city..."
+          [(ngModel)]="searchQuery" (input)="onSearch()" />
+        <button *ngIf="searchQuery" class="btn btn-outline-secondary" type="button" (click)="clearSearch()">
+          <i class="bi bi-x"></i> Clear
+        </button>
+        <button *ngIf="!searchQuery" class="btn btn-outline-primary" type="button" (click)="onSearch()">
+          <i class="bi bi-search"></i> Search
+        </button>
+      </div>
+      <small class="text-muted mt-2 d-block">
+        Type to search. Results update as you type.
+      </small>
+    </div>
+  </div>
+  <!-- END SEARCH BAR 1-8-026-->
+
+
+
+  <!-- Error State -->
+  <div *ngIf="hasError" class="alert alert-danger">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    Failed to load resources. The API might be unavailable.
+    <button class="btn btn-outline-danger btn-sm ms-2" (click)="loadResources()">
+      <i class="bi bi-arrow-clockwise"></i> Retry
+    </button>
+  </div>
+
+  <!-- Loading Skeleton (only show if no error and not loaded yet) -->
+  <div *ngIf="!hasError && !(resources$ | async)" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <!-- Skeleton Loading Cards -->
+    <div class="col" *ngFor="let i of [1,2,3,4,5,6]">
+      <div class="card h-100 shadow-sm border-0">
+        <!-- Card Header Skeleton -->
+        <div class="card-header placeholder-glow">
+          <h5 class="card-title mb-0">
+            <span class="placeholder col-8"></span>
+          </h5>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body d-flex flex-column">
+          <!-- Description Skeleton -->
+          <p class="card-text placeholder-glow flex-grow-1">
+            <span class="placeholder col-12 mb-2"></span>
+            <span class="placeholder col-10 mb-2"></span>
+            <span class="placeholder col-6"></span>
+          </p>
+
+          <!-- Contact Info Skeleton -->
+          <div class="mb-3 placeholder-glow">
+            <div class="d-flex align-items-center mb-2">
+              <span class="placeholder col-2 me-2"></span>
+              <span class="placeholder col-8"></span>
+            </div>
+            <div class="d-flex align-items-center mb-2">
+              <span class="placeholder col-2 me-2"></span>
+              <span class="placeholder col-7"></span>
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="placeholder col-2 me-2"></span>
+              <span class="placeholder col-6"></span>
+            </div>
+          </div>
+
+          <!-- Status Badge Skeleton -->
+          <div class="mb-3">
+            <span class="badge bg-light placeholder col-4"></span>
+          </div>
+
+          <!-- Action Buttons Skeleton -->
+          <div class="d-flex justify-content-between mt-auto">
+            <span class="btn btn-outline-primary btn-sm placeholder col-4"></span>
+            <div class="btn-group placeholder-glow">
+              <span class="btn btn-outline-success btn-sm placeholder col-3 me-1"></span>
+              <span class="btn btn-outline-danger btn-sm placeholder col-3"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- When resources are loaded (and no error) -->
+  <ng-container *ngIf="!hasError && (resources$ | async) as resources">
+
+
+
+
+    <!-- Empty State -->
+    <!-- <div *ngIf="resources.length === 0" class="text-center py-5">
+      <div class="alert alert-info">
+        <i class="bi bi-inbox fs-1 mb-3 d-block"></i>
+        <h4>No Resources Found</h4>
+        <p>There are no resources available at the moment.</p>
+        <button *ngIf="auth.isAdmin()" class="btn btn-primary" routerLink="/resources/new">
+          Add Your First Resource
+        </button>
+      </div>
+    </div> -->
+
+    <!-- 1-8-026 -->
+    <div *ngIf="resources.length === 0" class="text-center py-5">
+      <div class="alert alert-info">
+        <i class="bi bi-inbox fs-1 mb-3 d-block"></i>
+        <h4 *ngIf="searchQuery">No Results Found</h4>
+        <h4 *ngIf="!searchQuery">No Resources Found</h4>
+        <p *ngIf="searchQuery">No resources found for "{{searchQuery}}". Try a different search term.</p>
+        <p *ngIf="!searchQuery">There are no resources available at the moment.</p>
+        <div class="mt-3">
+          <button *ngIf="auth.isAdmin()" class="btn btn-primary me-2" routerLink="/resources/new">
+            Add Your First Resource
+          </button>
+          <button *ngIf="searchQuery" class="btn btn-outline-secondary" (click)="clearSearch()">
+            Clear Search
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- 1-8-026 -->
+
+
+
+
+    <!-- Resources Grid Header - Add search results count 1-8-026-->
+    <div *ngIf="resources.length > 0" class="mb-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <small class="text-muted">
+          <span *ngIf="searchQuery">
+            Found {{ resources.length }} result(s) for "{{ searchQuery }}"
+          </span>
+          <span *ngIf="!searchQuery">
+            Showing {{ resources.length }} resource(s)
+          </span>
+        </small>
+        <button *ngIf="searchQuery" class="btn btn-sm btn-outline-secondary" (click)="clearSearch()">
+          <i class="bi bi-x me-1"></i>Clear Search
+        </button>
+      </div>
+    </div>
+    <!-- 1-8-026 -->
+
+
+
+
+    <!-- Resources Grid -->
+    <div *ngIf="resources.length > 0" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <ng-container *ngFor="let r of resources">
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <!-- Card Header -->
+            <div class="card-header bg-white">
+              <h5 class="card-title mb-0 text-truncate" [title]="r.name">
+                {{ r.name }}
+              </h5>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body d-flex flex-column">
+              <!-- Description -->
+              <p class="card-text flex-grow-1 text-muted" style="font-size: 0.9rem;">
+                {{ (r.description.length > 100) ? (r.description | slice:0:100) + '...' : r.description }}
+              </p>
+
+              <!-- Contact Information -->
+              <div class="mb-3">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-telephone text-primary me-2"></i>
+                  <small class="text-truncate" [title]="r.phone">{{ r.phone }}</small>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-envelope text-primary me-2"></i>
+                  <small class="text-truncate" [title]="r.contactEmail">{{ r.contactEmail }}</small>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                  <i class="text-primary me-2"></i>
+                  <small class="text-truncate" [title]="r.categoryName">{{ r.categoryName }}</small>
+                </div>
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-geo-alt text-primary me-2"></i>
+                  <small class="text-truncate" [title]="r.city + ', ' + r.address">
+                    {{ r.city }}, {{ r.address }}
+                  </small>
+                </div>
+              </div>
+
+              <!-- Status Badge -->
+              <!-- <div class="mb-3">
+                <span class="badge" [ngClass]="r.isApproved ? 'bg-success' : 'bg-warning'">
+                  {{ r.isApproved ? 'Approved' : 'Pending Approval' }}
+                </span>
+              </div> -->
+
+              <!-- Action Buttons -->
+              <div class="d-flex justify-content-between mt-auto">
+                <!-- Website Link -->
+                <a *ngIf="r.website" [href]="r.website" target="_blank" class="btn btn-outline-primary btn-sm">
+                  <i class="bi bi-globe me-1"></i>Website
+                </a>
+
+                <!-- Admin Controls -->
+                <div *ngIf="auth.isAdmin()" class="btn-group">
+                  <button class="btn btn-outline-success btn-sm" (click)="approve(r.id)" [disabled]="r.isApproved"
+                    [title]="r.isApproved ? 'Already Approved' : 'Approve Resource'">
+                    <i class="bi" [ngClass]="r.isApproved ? 'bi-check-circle' : 'bi-check-circle'"></i>
+                    {{ r.isApproved ? 'Approved' : 'Approve' }}
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm" (click)="delete(r.id)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+  </ng-container>
+</div>

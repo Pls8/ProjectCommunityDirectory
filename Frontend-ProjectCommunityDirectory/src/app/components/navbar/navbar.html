@@ -1,0 +1,16 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <div class="navbar-nav">
+        <a class="navbar-brand" routerLink="/">Community Directory</a>
+        <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
+        <a class="nav-link" routerLink="/resources" routerLinkActive="active">Resources</a>
+        <a class="nav-link" routerLink="/events" routerLinkActive="active">Events</a>
+        <!-- Not logged in -->
+        <a class="nav-link" *ngIf="!auth.getUser()" routerLink="/login">Login</a>
+        <a class="nav-link" *ngIf="!auth.getUser()" routerLink="/register">Register</a>
+
+        <!-- Logged in -->
+        <a class="nav-link" *ngIf="auth.getUser()" (click)="auth.logout()">Logout</a>
+        <!-- Admin only -->
+        <a class="nav-link" *ngIf="auth.isAdmin()" routerLink="/admin">Admin</a>
+    </div>
+</nav>

@@ -1,0 +1,7 @@
+<h2>Login</h2>
+
+<form (ngSubmit)="login()">
+  <input [(ngModel)]="model.email" name="email" placeholder="Email" />
+  <input [(ngModel)]="model.password" name="password" type="password" placeholder="Password" />
+  <button type="submit">Login</button>
+</form>
